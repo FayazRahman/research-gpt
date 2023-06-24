@@ -12,12 +12,12 @@ git clone https://github.com/farizrahman4u/loopgpt.git
 cd loopgpt
 git checkout ai-functions-dev
 pip install -e .
-```
-
-```bash
+cd ..
 pip install researchgpt
 research --help
 ```
+
+# Example usage
 
 ```bash
 research "TOPIC" "my_research.txt" --mode short
