@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 package_name = "researchgpt"
 
-install_requires = ["loopgpt"]
+install_requires = []
 extras_require = {}
 
 if __name__ == "__main__":
