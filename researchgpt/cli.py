@@ -1,5 +1,5 @@
 import argparse
-import json
+import subprocess as sp
 
 from loopgpt.aifunc import create_empty_agent
 from .main import research, write_book
@@ -60,3 +60,17 @@ def main():
 
     index = research(topic, research_agent, **research_args)
     write_book(topic, index, writer_agent, filename, mode)
+    print(f"Content written to {filename}\n")
+
+    if mode.startswith("latex") and filename.endswith(".tex"):
+        try:
+            print(f"Converting {filename} to PDF...\n")
+            for _ in range(3):
+                sp.call(
+                    ["pdflatex", filename, "-output-directory", f"./research_output/"],
+                    stdout=sp.DEVNULL,
+                )
+        except Exception as e:
+            raise Exception(
+                "LaTeX to PDF conversion failed. Make sure you have a TeX distribution installed."
+            ) from e
