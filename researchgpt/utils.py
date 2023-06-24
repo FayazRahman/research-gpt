@@ -53,10 +53,11 @@ def generate_section_and_paragraph_headings(context: str) -> List[str]:
         List[str]: The list of headings generated.
     """
 
+
 @loopgpt.aifunc()
 def generate_index(bad_index: str) -> str:
-    """This is a semantic function. Given is an index for a book, but it has many problems, for example, duplicate sections, 
-    bad section names, subsections that don't match their sections, missing numbering or sections without subsections. 
+    """This is a semantic function. Given is an index for a book, but it has many problems, for example, duplicate sections,
+    bad section names, subsections that don't match their sections, missing numbering or sections without subsections.
     This function fixes all of these problems and returns a properly numbered good index without duplicate sections or missing subsections.
 
     Examples:
@@ -65,7 +66,7 @@ def generate_index(bad_index: str) -> str:
             1.2. Subsection 2
         2. Section 2
             3.1. Subsection 1
-    
+
     Args:
         bad_index (str): The bad index to be fixed.
 

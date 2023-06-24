@@ -21,6 +21,7 @@ def get_writer(mode):
     else:
         raise ValueError("Invalid mode.")
 
+
 def get_template(mode):
     if mode.startswith("latex"):
         return LATEX_TEMPLATE

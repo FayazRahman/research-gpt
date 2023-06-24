@@ -42,7 +42,7 @@ def research(topic, research_agent, breadth=3, depth=1):
             keywords_and_questions = new_keywords[:]
             depth -= 1
             i += 1
-    
+
     keywords_map.pop(i)
 
     heading_map = ""
