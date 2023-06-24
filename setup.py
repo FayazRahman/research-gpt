@@ -11,7 +11,7 @@ if __name__ == "__main__":
         extras_require=extras_require,
         packages=find_packages(),
         name=package_name,
-        version="0.0.2",
+        version="0.0.3",
         description="Automated Research. Powered by LoopGPT.",
-        entry_points={"console_scripts": ["loopgpt = loopgpt.loops.cli:main"]},
+        entry_points={"console_scripts": ["research = researchgpt.cli:main"]},
     )

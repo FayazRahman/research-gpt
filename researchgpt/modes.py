@@ -1,5 +1,5 @@
-from writers import *
-from writers.latex import LATEX_TEMPLATE
+from .writers import *
+from .writers.latex import LATEX_TEMPLATE
 
 
 def get_research_args(mode):

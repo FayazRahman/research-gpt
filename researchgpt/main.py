@@ -1,11 +1,11 @@
 from collections import defaultdict, OrderedDict
 
-from utils import (
+from .utils import (
     get_keywords_and_questions,
     generate_index,
 )
 from loopgpt.tools import GoogleSearch, Browser
-from modes import get_writer, get_template
+from .modes import get_writer, get_template
 from datetime import date
 
 
