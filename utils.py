@@ -7,7 +7,7 @@ import loopgpt
 @loopgpt.aifunc()
 def get_keywords_and_questions(topic: str) -> List[str]:
     """This is an atomic function. This function helps the user learn about the given topic in detail.
-    It returns a short list of keywords and questions that will be optimal for searching the web.
+    It returns a short list of 10 keywords and questions that will be optimal for searching the web.
 
     Args:
         topic (str): The topic to get keywords and questions for.
@@ -32,7 +32,7 @@ def research(topic: str) -> List[str]:
 
 @loopgpt.aifunc()
 def get_subtopics(topic: str) -> List[str]:
-    """This is an atomic function. It returns a list of sub-topics for the given topic that will be worth exploring further based on the data in memory.
+    """This is an atomic function. Generates a short list of 10 sub-topics for the given topic.
 
     Args:
         topic (str): The topic to get sub-topics for.

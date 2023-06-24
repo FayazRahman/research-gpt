@@ -1,10 +1,12 @@
 from writers import *
 
+
 def get_research_args(mode):
     if mode.endswith("short"):
         return {"breadth": 4, "depth": 1}
     else:
         return {"breadth": 4, "depth": 2}
+
 
 def get_writer(mode):
     if mode == "long":

@@ -9,6 +9,7 @@ from utils import (
 from loopgpt.tools import GoogleSearch, Browser
 from modes import get_writer
 
+
 def research(topic, research_agent, breadth=3, depth=1):
     keywords_and_questions = get_keywords_and_questions(topic)[:breadth]
     print(keywords_and_questions)
@@ -52,15 +53,15 @@ def research(topic, research_agent, breadth=3, depth=1):
             for subsection in range(len(keywords_map[depth + 1][section])):
                 print_section(depth + 1, subsection, keywords_map[depth + 1][section])
 
-
     for section in range(len(keywords_map[0])):
         print_section(0, section, keywords_map[0])
-    
+
     heading_map = clean_up(heading_map)
     index = generate_index(heading_map)
     print(index)
-    
+
     return index
+
 
 def write_book(index, writer_agent, filename, mode):
     items = index.split("\n")
@@ -75,13 +76,11 @@ def write_book(index, writer_agent, filename, mode):
             n, heading = item.strip().split(" ", 1)
             if len(n) == 2:
                 with writer_agent.query(heading):
-                    content = f"\n{heading}\n{'=' * len(heading)}\n\n{writer.write_section(heading)}\n"
+                    content = writer.write_section(heading) + "\n\n"
                 current_heading = heading
             else:
                 with writer_agent.query(current_heading + ": " + heading):
-                    content = (
-                        f"\n{heading}\n{'-' * len(heading)}\n\n{writer.write_subsection(heading)}\n"
-                    )
+                    content = writer.write_subsection(heading) + "\n\n"
             print(content)
             file.write(content)
     file.close()

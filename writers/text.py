@@ -1,9 +1,13 @@
-from .base import Writer
+from .base import Writer, format
 
 import loopgpt
 
+
 class TextWriter(Writer):
     @staticmethod
+    @format(
+        lambda heading, content: f"\n{heading}\n{'=' * len(heading)}\n\n{content}"
+    )
     @loopgpt.aifunc()
     def write_section(section: str) -> str:
         """This is a semantic function. Write an short introduction for a section of a book that will be read by a general audience in an
@@ -15,8 +19,11 @@ class TextWriter(Writer):
         Returns:
             str: The introduction written.
         """
-    
+
     @staticmethod
+    @format(
+        lambda heading, content: f"\n{heading}\n{'-' * len(heading)}\n\n{content}"
+    )
     @loopgpt.aifunc()
     def write_subsection(subsection: str) -> str:
         """This is a semantic function. Only based on the data loaded into your memory, write content for a subsection of a book that will be read by
@@ -30,15 +37,19 @@ class TextWriter(Writer):
             str: The content written.
         """
 
-class ShortTextWriter(Writer):
+
+class ShortTextWriter(TextWriter):
     @staticmethod
     @loopgpt.aifunc()
+    @format(
+        lambda heading, content: f"\n{heading}\n{'-' * len(heading)}\n\n{content}"
+    )
     def write_subsection(subsection: str) -> str:
         """This is a semantic function. Write a short paragraph about the given subsection. Mention URLs that can be visited for further information.
 
         Args:
             subsection (str): The subsection to write a short description for.
-        
+
         Returns:
             str: The written content.
         """
