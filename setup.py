@@ -12,6 +12,6 @@ if __name__ == "__main__":
         packages=find_packages(),
         name=package_name,
         version="0.0.1",
-        description="Modular Auto-GPT Framework",
+        description="Automated Research. Powered by LoopGPT.",
         entry_points={"console_scripts": ["loopgpt = loopgpt.loops.cli:main"]},
     )
