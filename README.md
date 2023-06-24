@@ -10,7 +10,7 @@ This is an experimental tool that uses OpenAI models and internet connectivity t
 pip uninstall loopgpt
 git clone https://github.com/farizrahman4u/loopgpt.git
 cd loopgpt
-git checkout ai-functions-dev
+git checkout feature/ai-functions-dev
 pip install -e .
 cd ..
 pip install researchgpt
@@ -24,5 +24,5 @@ research "TOPIC" "my_research.txt" --mode short
 ```
 
 ```bash
-research "TOPIC" "my_research.txt" --breadth 3 --depth 1 --latex
+research "TOPIC" "my_research.tex" --breadth 3 --depth 1 --latex
 ```
