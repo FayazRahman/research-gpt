@@ -59,4 +59,4 @@ if args.depth:
     research_args["depth"] = int(args.depth)
 
 index = research(topic, research_agent, **research_args)
-write_book(index, writer_agent, filename, mode)
+write_book(topic, index, writer_agent, filename, mode)

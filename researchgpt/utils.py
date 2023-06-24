@@ -43,14 +43,14 @@ def get_subtopics(topic: str) -> List[str]:
 
 
 @loopgpt.aifunc()
-def clean_up(keywords: str) -> str:
-    """This is an atomic function. It takes a list of keywords and cleans it up by removing similar keywords.
+def clean_up(index: str) -> str:
+    """This is an atomic function. Remove duplicate sections and subsections from the given index.
 
     Args:
-        keywords str: The list of keywords to clean up.
+        index (str): Index to clean up.
 
     Returns:
-        str: The cleaned up keywords in same order.
+        str: The cleaned up index.
     """
 
 
@@ -67,8 +67,8 @@ def generate_section_and_paragraph_headings(context: str) -> List[str]:
 
 
 @loopgpt.aifunc()
-def generate_index(clues: List[str]) -> str:
-    """This is a semantic function. It generates a numbered index for a short book using the given clues.
+def generate_index(rough: List[str]) -> str:
+    """This is a semantic function. It generates a numbered index for a short book using the given rough index.
     There should be never be two sections about the same topic. Section names should be short and distinct and they cannot be questions.
     Every section should have at least one subsection.
 
@@ -80,7 +80,7 @@ def generate_index(clues: List[str]) -> str:
             3.1. Subsection 1
 
     Args:
-        clues (List[str]): The clues to generate the index from.
+        rough (List[str]): The rough index to generate the final index from.
 
     Returns:
         str: The generated index.

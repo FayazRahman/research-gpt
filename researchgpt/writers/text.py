@@ -2,6 +2,13 @@ from .base import Writer, format
 
 import loopgpt
 
+TEXT_TEMPLATE = """{title}
+
+{date}
+
+{content}
+"""
+
 
 class TextWriter(Writer):
     @staticmethod

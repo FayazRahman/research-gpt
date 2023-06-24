@@ -2,16 +2,20 @@ from .base import Writer
 
 import loopgpt
 
-LATEX_START = r"""\documentclass{book}
+LATEX_TEMPLATE = """\\documentclass{{book}}
 
-\title{<TITLE>}
-\date{<DATE>}
+\\title{{{title}}}
+\\date{{{date}}}
 
-\begin{document}
+\\begin{{document}}
 
-\maketitle
+\\maketitle
 
-\tableofcontents
+\\tableofcontents
+
+{content}
+
+\\end{{document}}
 """
 
 
