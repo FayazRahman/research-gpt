@@ -47,7 +47,6 @@ def main():
     if args.latex:
         mode = "latex-" + mode
 
-
     research_agent = create_empty_agent(model=model, embedding_provider=emb)
     writer_agent = create_empty_agent(model=model, embedding_provider=emb)
 
