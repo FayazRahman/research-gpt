@@ -1,10 +1,8 @@
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 
 from utils import (
     get_keywords_and_questions,
-    clean_up,
     generate_index,
-    get_subtopics,
 )
 from loopgpt.tools import GoogleSearch, Browser
 from modes import get_writer, get_template
@@ -13,7 +11,6 @@ from datetime import date
 
 def research(topic, research_agent, breadth=3, depth=1):
     keywords_and_questions = get_keywords_and_questions(topic)[:breadth]
-    print(keywords_and_questions)
 
     google_search = GoogleSearch()
     browser = Browser()
@@ -36,17 +33,17 @@ def research(topic, research_agent, breadth=3, depth=1):
                         data_sources[links[j]] = browser.run(links[j], "")
 
                 with research_agent.query(search_term):
-                    subtopics = get_subtopics(search_term)
+                    subtopics = get_keywords_and_questions(search_term)
                     next_level = subtopics[:4]
                     next_keywords = subtopics[:breadth]
 
-                print(next_level)
-                print(next_keywords)
                 keywords_map[i + 1].append(next_level[:])
                 new_keywords.extend(next_keywords[:])
             keywords_and_questions = new_keywords[:]
             depth -= 1
             i += 1
+    
+    keywords_map.pop(i)
 
     heading_map = ""
 
@@ -60,9 +57,7 @@ def research(topic, research_agent, breadth=3, depth=1):
     for section in range(len(keywords_map[0])):
         print_section(0, section, keywords_map[0])
 
-    heading_map = clean_up(heading_map)
     index = generate_index(heading_map)
-    print(index)
 
     return index
 
@@ -78,15 +73,18 @@ def write_book(topic, index, writer_agent, filename, mode):
     template = get_template(mode)
 
     content = ""
+    last_section = ""
     with writer_agent:
         for item in items:
             n, heading = item.strip().split(" ", 1)
             if len(n) == 2:
                 with writer_agent.query(heading):
-                    content += writer.write_section(heading) + "\n\n"
+                    last_section = writer.write_section(heading)
+                    content += last_section + "\n\n"
                 current_heading = heading
             else:
-                with writer_agent.query(current_heading + ": " + heading):
-                    content += writer.write_subsection(heading) + "\n\n"
+                with writer_agent.complete({"assistant": last_section}):
+                    with writer_agent.query(current_heading + ": " + heading):
+                        content += writer.write_subsection(heading) + "\n\n"
     file.write(template.format(title=topic, date=str(date.today()), content=content))
     file.close()

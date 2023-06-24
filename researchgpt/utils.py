@@ -31,18 +31,6 @@ def research(topic: str) -> List[str]:
 
 
 @loopgpt.aifunc()
-def get_subtopics(topic: str) -> List[str]:
-    """This is an atomic function. Generates a short list of 10 sub-topics for the given topic.
-
-    Args:
-        topic (str): The topic to get sub-topics for.
-
-    Returns:
-        List[str]: A list of sub-topics for the given topic.
-    """
-
-
-@loopgpt.aifunc()
 def clean_up(index: str) -> str:
     """This is an atomic function. Remove duplicate sections and subsections from the given index.
 
@@ -65,12 +53,11 @@ def generate_section_and_paragraph_headings(context: str) -> List[str]:
         List[str]: The list of headings generated.
     """
 
-
 @loopgpt.aifunc()
-def generate_index(rough: List[str]) -> str:
-    """This is a semantic function. It generates a numbered index for a short book using the given rough index.
-    There should be never be two sections about the same topic. Section names should be short and distinct and they cannot be questions.
-    Every section should have at least one subsection.
+def generate_index(bad_index: str) -> str:
+    """This is a semantic function. Given is an index for a book, but it has many problems, for example, duplicate sections, 
+    bad section names, subsections that don't match their sections, missing numbering or sections without subsections. 
+    This function fixes all of these problems and returns a properly numbered good index without duplicate sections or missing subsections.
 
     Examples:
         1. Section 1
@@ -78,10 +65,10 @@ def generate_index(rough: List[str]) -> str:
             1.2. Subsection 2
         2. Section 2
             3.1. Subsection 1
-
+    
     Args:
-        rough (List[str]): The rough index to generate the final index from.
+        bad_index (str): The bad index to be fixed.
 
     Returns:
-        str: The generated index.
+        str: The generated good index.
     """
