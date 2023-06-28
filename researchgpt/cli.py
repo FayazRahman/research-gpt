@@ -4,13 +4,10 @@ import subprocess as sp
 from loopgpt.aifunc import create_empty_agent
 from .main import research, write_book
 from .modes import get_research_args
-from .config import model, emb
+from .config import model, emb, memory
 
 
 def main():
-    research_agent = create_empty_agent(model=model, embedding_provider=emb)
-    writer_agent = create_empty_agent(model=model, embedding_provider=emb)
-
     parser = argparse.ArgumentParser()
 
     parser.add_argument("topic", help="Topic to research")
@@ -47,8 +44,12 @@ def main():
     if args.latex:
         mode = "latex-" + mode
 
-    research_agent = create_empty_agent(model=model, embedding_provider=emb)
-    writer_agent = create_empty_agent(model=model, embedding_provider=emb)
+    research_agent = create_empty_agent(
+        model=model, embedding_provider=emb, memory=memory
+    )
+    writer_agent = create_empty_agent(
+        model=model, embedding_provider=emb, memory=memory
+    )
 
     writer_agent.memory = research_agent.memory
 
@@ -58,7 +59,12 @@ def main():
     if args.depth:
         research_args["depth"] = int(args.depth)
 
-    index = research(topic, research_agent, **research_args)
+    if len(memory) == 0:
+        index = research(topic, research_agent, **research_args)
+    else:
+        index = memory.get("index", k=1)[0]
+        print("Index found in memory: \n")
+        print(index)
     write_book(topic, index, writer_agent, filename, mode)
     print(f"Content written to {filename}\n")
 

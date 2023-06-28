@@ -6,6 +6,7 @@ LATEX_TEMPLATE = """\\documentclass{{report}}
 
 \\title{{{title}}}
 \\date{{{date}}}
+\\author{{Research-GPT}}
 
 \\begin{{document}}
 
@@ -22,12 +23,13 @@ LATEX_TEMPLATE = """\\documentclass{{report}}
 class LatexWriter(Writer):
     @staticmethod
     @loopgpt.aifunc()
-    def write_section(section: str) -> str:
+    def write_section(title: str, section: str) -> str:
         """Writes a latex \section{} command with the section name and then a short section about the given topic without going into specific details
         as there will be future subsections for that. The section should be less than 50 words long and should mention at least 3 subtopics
         that will be covered in future subsections.
 
         Args:
+            title (str): The title of the final document.
             section (str): The section to write the introduction for.
 
         Returns:
@@ -42,6 +44,7 @@ class LatexWriter(Writer):
         It must be in valid LaTeX with correct escaping.
 
         Args:
+            title (str): The title of the final document.
             subsection (str): The subsection to write about.
 
         Returns:
@@ -52,7 +55,7 @@ class LatexWriter(Writer):
 class ShortLatexWriter(LatexWriter):
     @staticmethod
     @loopgpt.aifunc()
-    def write_subsection(subsection: str) -> str:
+    def write_subsection(title: str, subsection: str) -> str:
         """This is a semantic function. It writes a latex subsection command followed by the subsection name and then a very short subsection
         content including links to relevant websites.
         Writes a latex \subsection{} command with the subsection name and then a short subsection about the given topic that should be between 100 and 200
@@ -60,6 +63,7 @@ class ShortLatexWriter(LatexWriter):
         find more information.
 
         Args:
+            title (str): The title of the final document.
             subsection (str): The subsection to write about.
 
         Returns:
