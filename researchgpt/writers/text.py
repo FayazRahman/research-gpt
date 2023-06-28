@@ -16,7 +16,7 @@ class TextWriter(Writer):
     @loopgpt.aifunc()
     def write_section(title: str, section: str) -> str:
         """Writes a short section about the given topic without going into specific details as there will be future subsections for that.
-        The section should be less than 50 words long and should mention at least 3 subtopics that will be covered in future subsections.
+        The section should be less than 50 words long.
 
         Args:
             title (str): The title of the final document.

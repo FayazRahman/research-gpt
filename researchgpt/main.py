@@ -9,6 +9,8 @@ from loopgpt.agent import Agent
 from .modes import get_writer, get_template
 from datetime import date
 
+import os
+
 
 def research(topic: str, research_agent: Agent, breadth: int = 3, depth: int = 1):
     keywords_and_questions = get_keywords_and_questions(topic)[:breadth]
@@ -51,7 +53,8 @@ def research(topic: str, research_agent: Agent, breadth: int = 3, depth: int = 1
 def write_book(topic, index, writer_agent, filename, mode):
     items = index.split("\n")
 
-    file = open(filename, "w")
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    file = open(filename, "w", encoding="utf-8")
 
     current_heading = ""
 

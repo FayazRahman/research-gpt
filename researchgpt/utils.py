@@ -56,8 +56,8 @@ def generate_section_and_paragraph_headings(context: str) -> List[str]:
 
 @loopgpt.aifunc()
 def generate_index(topics: List[str], title: str) -> str:
-    """This is a semantic function. The given topics were researched by the user. He would now like to write a book with the given title.
-    This function helps the user by generating an index for the book based on the topics researched.
+    """This is a semantic function. The given topics were researched by the user. He would now like to write a document with the given title.
+    This function helps the user by generating an index for the document based on the topics researched.
 
     Examples:
         1. Section 1
@@ -68,7 +68,7 @@ def generate_index(topics: List[str], title: str) -> str:
 
     Args:
         topics (List[str]): The topics researched by the user.
-        title (str): The title of the book.
+        title (str): The title of the document.
 
     Returns:
         str: The generated index.
