@@ -42,7 +42,6 @@ def research(topic: str, research_agent: Agent, breadth: int = 3, depth: int = 1
             keywords = new_keywords[:]
             depth -= 1
 
-    print(topics_researched)
     index = generate_outline(topics_researched, topic)
     research_agent.memory.add(index, "index")
     print(f"Index generated:\n\n{index}\n")
