@@ -1,19 +1,17 @@
-from collections import defaultdict, OrderedDict
-
 from .utils import (
-    get_keywords_and_questions,
-    generate_index,
+    get_keywords,
+    generate_outline,
 )
 from loopgpt.tools import GoogleSearch, Browser
 from loopgpt.agent import Agent
-from .modes import get_writer, get_template
+from .modes import get_writer, get_template, get_context
 from datetime import date
 
 import os
 
 
 def research(topic: str, research_agent: Agent, breadth: int = 3, depth: int = 1):
-    keywords_and_questions = get_keywords_and_questions(topic)[:breadth]
+    keywords = get_keywords(topic)[:breadth]
 
     google_search = GoogleSearch()
     browser = Browser()
@@ -24,8 +22,8 @@ def research(topic: str, research_agent: Agent, breadth: int = 3, depth: int = 1
     with research_agent:
         while depth > 0:
             new_keywords = []
-            while keywords_and_questions:
-                search_term = keywords_and_questions.pop(0)
+            while keywords:
+                search_term = keywords.pop(0)
                 topics_researched.append(search_term)
                 print(f"Searching Google for: {topic} {search_term}\n")
                 _, links = google_search.manual_run(topic + " " + search_term)
@@ -37,13 +35,13 @@ def research(topic: str, research_agent: Agent, breadth: int = 3, depth: int = 1
                         data_sources[links[j]] = browser.run(links[j], "")
 
                 with research_agent.query(search_term):
-                    subtopics = get_keywords_and_questions(search_term)[:breadth]
+                    subtopics = get_keywords(search_term)[:breadth]
                     new_keywords.extend(subtopics[:])
 
-            keywords_and_questions = new_keywords[:]
+            keywords = new_keywords[:breadth]
             depth -= 1
 
-    index = generate_index(topics_researched, topic)
+    index = generate_outline(topics_researched, topic)
     research_agent.memory.add(index, "index")
     print(f"Index generated:\n\n{index}\n")
 
@@ -60,24 +58,29 @@ def write_book(topic, index, writer_agent, filename, mode):
 
     writer = get_writer(mode)
     template = get_template(mode)
+    context = get_context(mode)
 
     content = ""
     last_section = ""
+
     with writer_agent:
         for item in items:
-            n, heading = item.strip().split(" ", 1)
+            try:
+                n, heading = item.strip().split(" ", 1)
+            except ValueError:
+                continue
             if len(n) == 2:
                 with writer_agent.query(topic + ": " + heading):
                     print(f"Writing section: {heading}\n")
-                    last_section = writer.write_section(topic, heading)
+                    last_section = writer.write_section(heading)
                     content += last_section + "\n\n"
                 current_heading = heading
             else:
-                with writer_agent.complete({"assistant": last_section}):
+                with writer_agent.complete({"assistant": last_section, "system": context}):
                     with writer_agent.query(
                         topic + ": " + current_heading + ": " + heading
                     ):
                         print(f"Writing subsection: {heading}\n")
-                        content += writer.write_subsection(topic, heading) + "\n\n"
+                        content += writer.write_subsection(heading) + "\n\n"
     file.write(template.format(title=topic, date=str(date.today()), content=content))
     file.close()

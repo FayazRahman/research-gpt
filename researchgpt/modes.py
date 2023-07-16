@@ -1,5 +1,5 @@
 from .writers import *
-from .writers.latex import LATEX_TEMPLATE
+from .writers.latex import LATEX_TEMPLATE, LATEX_CONTEXT
 
 
 def get_research_args(mode):
@@ -27,3 +27,9 @@ def get_template(mode):
         return LATEX_TEMPLATE
     else:
         return "{content}"
+
+def get_context(mode):
+    if mode.startswith("latex"):
+        return LATEX_CONTEXT
+    else:
+        return ""

@@ -14,12 +14,11 @@ class TextWriter(Writer):
     @staticmethod
     @format(lambda heading, content: f"\n{heading}\n{'=' * len(heading)}\n\n{content}")
     @loopgpt.aifunc()
-    def write_section(title: str, section: str) -> str:
+    def write_section(section: str) -> str:
         """Writes a short section about the given topic without going into specific details as there will be future subsections for that.
         The section should be less than 50 words long.
 
         Args:
-            title (str): The title of the final document.
             section (str): The topic of the section.
 
         Returns:
@@ -35,7 +34,6 @@ class TextWriter(Writer):
         from a reputable source.
 
         Args:
-            title (str): The title of the final document.
             subsection (str): The topic of the subsection.
 
         Returns:
@@ -52,7 +50,6 @@ class ShortTextWriter(TextWriter):
         previously where the reader can find more information.
 
         Args:
-            title (str): The title of the final document.
             subsection (str): The topic of the subsection.
 
         Returns:

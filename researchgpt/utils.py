@@ -5,15 +5,15 @@ import loopgpt
 
 
 @loopgpt.aifunc()
-def get_keywords_and_questions(topic: str) -> List[str]:
+def get_keywords(topic: str) -> List[str]:
     """This is an atomic function. This function helps the user learn about the given topic in detail.
-    It returns a short list of 10 keywords and questions that will be optimal for searching the web.
+    It returns a short list of 10 keywords that will be optimal for searching the web.
 
     Args:
-        topic (str): The topic to get keywords and questions for.
+        topic (str): The topic to get keywords for.
 
     Returns:
-        List[str]: A list of keywords and questions about the topic.
+        List[str]: A list of 10 keywords about the topic.
     """
 
 
@@ -55,9 +55,8 @@ def generate_section_and_paragraph_headings(context: str) -> List[str]:
 
 
 @loopgpt.aifunc()
-def generate_index(topics: List[str], title: str) -> str:
-    """This is a semantic function. The given topics were researched by the user. He would now like to write a document with the given title.
-    This function helps the user by generating an index for the document based on the topics researched.
+def generate_outline(entities: List[str], title: str) -> str:
+    """This is a semantic function. Creates an outline for an article about the given title that includes the given entities.
 
     Examples:
         1. Section 1
@@ -67,9 +66,9 @@ def generate_index(topics: List[str], title: str) -> str:
             3.1. Subsection 1
 
     Args:
-        topics (List[str]): The topics researched by the user.
+        entities (List[str]): The entities to be included in the outline.
         title (str): The title of the document.
 
     Returns:
-        str: The generated index.
+        str: The generated outline.
     """
