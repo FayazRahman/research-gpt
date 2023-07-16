@@ -13,7 +13,10 @@ cd loopgpt
 git checkout feature/ai-functions-dev
 pip install -e .
 cd ..
-pip install researchgpt
+git clone https://github.com/FayazRahman/research-gpt.git
+cd research-gpt
+pip install -e .
+cd ..
 research --help
 ```
 
