@@ -5,15 +5,16 @@ import loopgpt
 
 
 @loopgpt.aifunc()
-def get_keywords(topic: str) -> List[str]:
+def get_keywords(topic: str, done: List[str]) -> List[str]:
     """This is an atomic function. This function helps the user learn about the given topic in detail.
-    It returns a short list of 10 keywords that will be optimal for searching the web.
+    It returns a short list of 10 keywords different from the ones in the list of `done` keywords that will be
+    optimal for searching the web.
 
     Args:
         topic (str): The topic to get keywords for.
 
     Returns:
-        List[str]: A list of 10 keywords about the topic.
+        List[str]: A list of 10 keywords about the topic that are not in the list of `done` keywords.
     """
 
 
@@ -57,6 +58,7 @@ def generate_section_and_paragraph_headings(context: str) -> List[str]:
 @loopgpt.aifunc()
 def generate_outline(entities: List[str], title: str) -> str:
     """This is a semantic function. Creates an outline for an article about the given title that includes the given entities.
+    Ignore duplicate entities. The outline must not have duplicate entries.
 
     Examples:
         1. Section 1

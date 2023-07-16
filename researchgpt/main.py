@@ -11,20 +11,20 @@ import os
 
 
 def research(topic: str, research_agent: Agent, breadth: int = 3, depth: int = 1):
-    keywords = get_keywords(topic)[:breadth]
+    keywords = get_keywords(topic, [])[:breadth]
 
     google_search = GoogleSearch()
     browser = Browser()
 
     data_sources = {}
     topics_researched = []
+    topics_researched.extend(keywords)
 
     with research_agent:
         while depth > 0:
             new_keywords = []
             while keywords:
                 search_term = keywords.pop(0)
-                topics_researched.append(search_term)
                 print(f"Searching Google for: {topic} {search_term}\n")
                 _, links = google_search(topic + " " + search_term)
                 for j in range(breadth):
@@ -35,12 +35,14 @@ def research(topic: str, research_agent: Agent, breadth: int = 3, depth: int = 1
                         data_sources[links[j]] = browser(links[j])
 
                 with research_agent.query(search_term):
-                    subtopics = get_keywords(search_term)[:breadth]
-                    new_keywords.extend(subtopics[:])
+                    subtopics = get_keywords(search_term, topics_researched)[:breadth]
+                    topics_researched.extend(subtopics)
+                    new_keywords.extend(subtopics)
 
-            keywords = new_keywords[:breadth]
+            keywords = new_keywords[:]
             depth -= 1
 
+    print(topics_researched)
     index = generate_outline(topics_researched, topic)
     research_agent.memory.add(index, "index")
     print(f"Index generated:\n\n{index}\n")

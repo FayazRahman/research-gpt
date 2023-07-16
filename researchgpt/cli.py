@@ -3,7 +3,6 @@ import loopgpt
 import argparse
 import subprocess as sp
 
-from loopgpt.aifunc import create_empty_agent
 from .main import research, write_book
 from .modes import get_research_args
 from .config import model, emb
@@ -51,9 +50,9 @@ def main():
     if agent_path:
         research_agent = loopgpt.Agent.load(agent_path)
     else:
-        research_agent = create_empty_agent(model=model, embedding_provider=emb)
+        research_agent = loopgpt.empty_agent(model=model, embedding_provider=emb)
 
-    writer_agent = create_empty_agent(model=model, embedding_provider=emb)
+    writer_agent = loopgpt.empty_agent(model=model, embedding_provider=emb)
 
     writer_agent.memory = research_agent.memory
 
