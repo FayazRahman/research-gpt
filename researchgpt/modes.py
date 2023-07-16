@@ -4,7 +4,7 @@ from .writers.latex import LATEX_TEMPLATE, LATEX_CONTEXT
 
 def get_research_args(mode):
     if mode.endswith("short"):
-        return {"breadth": 4, "depth": 1}
+        return {"breadth": 2, "depth": 1}
     else:
         return {"breadth": 4, "depth": 2}
 
@@ -27,6 +27,7 @@ def get_template(mode):
         return LATEX_TEMPLATE
     else:
         return "{content}"
+
 
 def get_context(mode):
     if mode.startswith("latex"):

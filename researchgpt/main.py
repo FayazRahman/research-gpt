@@ -26,13 +26,13 @@ def research(topic: str, research_agent: Agent, breadth: int = 3, depth: int = 1
                 search_term = keywords.pop(0)
                 topics_researched.append(search_term)
                 print(f"Searching Google for: {topic} {search_term}\n")
-                _, links = google_search.manual_run(topic + " " + search_term)
+                _, links = google_search(topic + " " + search_term)
                 for j in range(breadth):
                     if data_sources.get(links[j]):
                         pass
                     else:
                         print(f"Browsing: {links[j]}\n")
-                        data_sources[links[j]] = browser.run(links[j], "")
+                        data_sources[links[j]] = browser(links[j])
 
                 with research_agent.query(search_term):
                     subtopics = get_keywords(search_term)[:breadth]
@@ -76,7 +76,9 @@ def write_book(topic, index, writer_agent, filename, mode):
                     content += last_section + "\n\n"
                 current_heading = heading
             else:
-                with writer_agent.complete({"assistant": last_section, "system": context}):
+                with writer_agent.complete(
+                    {"assistant": last_section, "system": context}
+                ):
                     with writer_agent.query(
                         topic + ": " + current_heading + ": " + heading
                     ):
